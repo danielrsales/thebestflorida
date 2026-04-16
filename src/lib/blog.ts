@@ -80,8 +80,7 @@ export function getPostBySlug(slug: string): Post | null {
   if (!filePath) return null
 
   const raw = fs.readFileSync(filePath, 'utf8')
-  const { data, content } = matter(raw)
-  const stats = readingTime(content)
+  const { content } = matter(raw)
 
   return {
     ...parseMeta(slug, raw),
