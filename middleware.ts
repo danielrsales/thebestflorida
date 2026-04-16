@@ -29,29 +29,57 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session so it doesn't expire mid-session
+  // Refresh session
   const { data: { session } } = await supabase.auth.getSession()
-
   const { pathname } = request.nextUrl
+  const role = session?.user?.user_metadata?.role as string | undefined
 
-  // Redirect unauthenticated users away from protected routes
-  const isProtected =
-    pathname.startsWith('/dashboard') || pathname.startsWith('/admin')
+  // ── Unauthenticated: protect all private routes ─────────────────────────
+  const isPrivate =
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/account') ||
+    pathname.startsWith('/admin')
 
-  if (isProtected && !session) {
+  if (isPrivate && !session) {
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('next', pathname)
     return NextResponse.redirect(loginUrl)
   }
 
-  // Redirect authenticated users away from login/signup
-  if (session && (pathname === '/login' || pathname === '/signup')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+  // ── Authenticated: role-based routing ────────────────────────────────────
+  if (session) {
+    // Clients should not access /dashboard → send to /account
+    if (pathname.startsWith('/dashboard') && role === 'client') {
+      return NextResponse.redirect(new URL('/account', request.url))
+    }
+
+    // Contractors should not access /account → send to /dashboard
+    if (pathname.startsWith('/account') && role === 'contractor') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+
+    // /admin → only role === 'admin' (future)
+    if (pathname.startsWith('/admin') && role !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+
+    // Redirect authenticated users away from auth pages
+    if (pathname === '/login' || pathname === '/signup' || pathname === '/signup/client') {
+      const dest = role === 'client' ? '/account' : '/dashboard'
+      return NextResponse.redirect(new URL(dest, request.url))
+    }
   }
 
   return response
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/signup'],
+  matcher: [
+    '/dashboard/:path*',
+    '/account/:path*',
+    '/admin/:path*',
+    '/login',
+    '/signup',
+    '/signup/client',
+  ],
 }

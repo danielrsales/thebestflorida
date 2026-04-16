@@ -1,59 +1,33 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
-import { Combobox, type ComboboxOption } from '@/components/ui/Combobox'
 
 type Step = 'form' | 'success'
 
-export function SignupForm() {
+export function SignupClientForm() {
   const router = useRouter()
   const [step, setStep] = useState<Step>('form')
-  const [categoryOptions, setCategoryOptions] = useState<ComboboxOption[]>([])
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
-  const [categorySlugs, setCategorySlugs] = useState<string[]>([])
   const [city, setCity] = useState('')
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const supabase = createClient()
-    supabase
-      .from('tbf_categories')
-      .select('id, name, slug')
-      .order('name')
-      .then(({ data }) => {
-        if (data) {
-          setCategoryOptions(data.map((c) => ({ value: c.slug, label: c.name })))
-        }
-      })
-  }, [])
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (categorySlugs.length === 0) {
-      setError('Select at least one service category.')
-      return
-    }
     setError('')
     setLoading(true)
 
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'contractor',
-        name, email, password, phone,
-        categorySlugs,
-        city,
-      }),
+      body: JSON.stringify({ type: 'client', name, email, password, phone, city }),
     })
 
     const json = await res.json()
@@ -69,22 +43,22 @@ export function SignupForm() {
 
   if (step === 'success') {
     return (
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-sm">
         <div className="bg-white rounded-2xl border shadow-sm p-8 text-center">
           <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Account created!</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">You&apos;re in!</h2>
           <p className="text-sm text-gray-500 mb-6">
-            Welcome to TheBestFlorida! Your contractor profile is pending review. Check your email for next steps.
+            Your account is ready. Sign in to start requesting quotes from local pros.
           </p>
           <button
             onClick={() => router.push('/login')}
             className="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Go to Login
+            Sign in
           </button>
         </div>
       </div>
@@ -92,24 +66,24 @@ export function SignupForm() {
   }
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-sm">
       <div className="bg-white rounded-2xl border shadow-sm p-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">List your business</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Create an account</h1>
         <p className="text-sm text-gray-500 mb-6">
           Already have an account?{' '}
           <Link href="/login" className="text-blue-600 hover:underline font-medium">
             Sign in
           </Link>
           {' · '}
-          <Link href="/signup/client" className="text-blue-600 hover:underline font-medium">
-            Sign up as a customer
+          <Link href="/signup" className="text-blue-600 hover:underline font-medium">
+            List your business
           </Link>
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Business or full name <span className="text-red-500">*</span>
+              Full name <span className="text-red-500">*</span>
             </label>
             <input
               id="name"
@@ -118,7 +92,7 @@ export function SignupForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Sunshine Plumbing LLC"
+              placeholder="John Smith"
             />
           </div>
 
@@ -157,7 +131,7 @@ export function SignupForm() {
 
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-              Phone
+              Phone <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
               id="phone"
@@ -170,26 +144,12 @@ export function SignupForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Service categories <span className="text-red-500">*</span>
-            </label>
-            <Combobox
-              options={categoryOptions}
-              value={categorySlugs}
-              onChange={setCategorySlugs}
-              placeholder="Search categories…"
-              max={5}
-            />
-          </div>
-
-          <div>
             <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-              City <span className="text-red-500">*</span>
+              City <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
               id="city"
               type="text"
-              required
               value={city}
               onChange={(e) => setCity(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
