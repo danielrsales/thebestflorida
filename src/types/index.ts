@@ -1,3 +1,5 @@
+// ─── Database tables (all prefixed with tbf_) ────────────────────────────────
+
 export interface Category {
   id: number
   name: string
@@ -30,6 +32,7 @@ export interface Contractor {
   website: string | null
   city_id: number | null
   city?: { name: string; slug: string } | null
+  categories?: { name: string; slug: string }[]
   year_established: number | null
   is_insured: boolean
   is_bonded: boolean
@@ -39,8 +42,8 @@ export interface Contractor {
   response_time_hours: number | null
   is_verified: boolean
   is_sponsored: boolean
-  sponsor_tier: string | null
-  status: string
+  sponsor_tier: 'gold' | 'silver' | 'bronze' | null
+  status: 'active' | 'inactive' | 'pending'
 }
 
 export interface ContractorReview {
@@ -56,3 +59,32 @@ export interface ContractorReview {
   project_cost_range: string | null
   created_at: string
 }
+
+export interface ContractorCategory {
+  contractor_id: number
+  category_id: number
+  category?: Pick<Category, 'name' | 'slug'>
+}
+
+export interface QuoteRequest {
+  id?: number
+  contractor_id: number
+  name: string
+  email: string
+  phone: string
+  message: string
+  service_type: string | null
+  city: string | null
+  created_at?: string
+}
+
+// ─── Supabase table name constants ───────────────────────────────────────────
+
+export const TABLES = {
+  categories:           'tbf_categories',
+  cities:               'tbf_cities',
+  contractors:          'tbf_contractors',
+  contractor_reviews:   'tbf_contractor_reviews',
+  contractor_categories:'tbf_contractor_categories',
+  quote_requests:       'tbf_quote_requests',
+} as const
