@@ -37,7 +37,7 @@ function parseMeta(slug: string, raw: string): PostMeta {
     slug,
     title:       data.title        ?? 'Untitled',
     date:        data.date         ? String(data.date).slice(0, 10) : new Date().toISOString().slice(0, 10),
-    description: data.description  ?? '',
+    description: data.description ?? data.excerpt ?? '',
     author:      data.author       ?? 'Editorial Team',
     category:    data.category     ?? null,
     city:        data.city         ?? null,
