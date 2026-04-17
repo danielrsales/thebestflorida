@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { PlusCircle, Pencil, Eye, EyeOff, Trash2 } from 'lucide-react'
+import { PlusCircle, Pencil, Eye, EyeOff } from 'lucide-react'
 import { adminGetAllPosts } from '@/lib/posts'
+import { DeletePostButton } from '@/components/admin/DeletePostButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -88,7 +89,7 @@ export default async function AdminBlogPage() {
                       >
                         <Pencil className="w-4 h-4" />
                       </Link>
-                      <DeleteButton slug={post.slug} title={post.title} />
+                      <DeletePostButton slug={post.slug} title={post.title} />
                     </div>
                   </td>
                 </tr>
@@ -98,27 +99,5 @@ export default async function AdminBlogPage() {
         </div>
       )}
     </main>
-  )
-}
-
-// Inline client component for delete
-function DeleteButton({ slug, title }: { slug: string; title: string }) {
-  'use client'
-  return (
-    <form
-      action={`/api/admin/blog/${slug}`}
-      method="DELETE"
-      onSubmit={async (e) => {
-        e.preventDefault()
-        if (!confirm(`Delete "${title}"? This cannot be undone.`)) return
-        const res = await fetch(`/api/admin/blog/${slug}`, { method: 'DELETE' })
-        if (res.ok) window.location.reload()
-        else alert('Failed to delete post.')
-      }}
-    >
-      <button type="submit" className="text-gray-500 hover:text-red-400 transition-colors" title="Delete">
-        <Trash2 className="w-4 h-4" />
-      </button>
-    </form>
   )
 }
