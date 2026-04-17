@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { getAllPosts } from '@/lib/blog'
+import { getAllPostsCombined } from '@/lib/posts'
 import { PostCard } from '@/components/blog/PostCard'
 
-export const revalidate = 3600
+export const revalidate = 300 // 5 min — DB posts update faster than MDX
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -11,14 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: '/blog/' },
   openGraph: {
     title: 'Blog | TheBestFlorida',
-    description:
-      'Tips, guides, and local service reviews across Florida.',
+    description: 'Tips, guides, and local service reviews across Florida.',
     url: '/blog/',
   },
 }
 
-export default function BlogPage() {
-  const posts = getAllPosts()
+export default async function BlogPage() {
+  const posts = await getAllPostsCombined()
   const [featured, ...rest] = posts
 
   return (

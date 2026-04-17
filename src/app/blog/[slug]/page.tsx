@@ -3,21 +3,24 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
-import { getAllSlugs, getPostBySlug } from '@/lib/blog'
+import { getPostBySlugCombined } from '@/lib/posts'
+import { getAllSlugs } from '@/lib/blog'
 import { PostContent } from '@/components/blog/PostContent'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 interface Props {
   params: { slug: string }
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  // At build time, only MDX slugs are available (DB not seeded yet).
+  // DB slugs are served on-demand and cached via ISR.
   return getAllSlugs().map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug(params.slug)
+  const post = await getPostBySlugCombined(params.slug)
   if (!post) return {}
 
   return {
@@ -36,8 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function BlogPostPage({ params }: Props) {
-  const post = getPostBySlug(params.slug)
+export default async function BlogPostPage({ params }: Props) {
+  const post = await getPostBySlugCombined(params.slug)
   if (!post) notFound()
 
   return (
@@ -51,6 +54,7 @@ export default function BlogPostPage({ params }: Props) {
             fill
             className="object-cover opacity-60"
             priority
+            unoptimized={post.image.includes('supabase')}
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />

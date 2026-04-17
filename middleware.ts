@@ -58,10 +58,8 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
 
-    // /admin → only role === 'admin' (future)
-    if (pathname.startsWith('/admin') && role !== 'admin') {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
+    // /admin → is_admin check is handled by the admin layout (Server Component DB query)
+    // Middleware only blocks unauthenticated access (handled above)
 
     // Redirect authenticated users away from auth pages
     if (pathname === '/login' || pathname === '/signup' || pathname === '/signup/client') {
