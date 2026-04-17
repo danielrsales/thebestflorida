@@ -125,6 +125,7 @@ async function signupContractor({
     .from('tbf_contractors')
     .insert({
       user_id: userId,
+      name,
       business_name: name,
       email,
       phone: phone || null,
