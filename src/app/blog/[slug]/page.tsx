@@ -43,8 +43,41 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPostBySlugCombined(params.slug)
   if (!post) notFound()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description || post.title,
+    author: {
+      '@type': 'Person',
+      name: post.author || 'TheBestFlorida Team',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'TheBestFlorida',
+      url: 'https://www.thebestflorida.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.thebestflorida.com/logo.png',
+      },
+    },
+    datePublished: post.date,
+    dateModified: post.date,
+    url: `https://www.thebestflorida.com/blog/${post.slug}/`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://www.thebestflorida.com/blog/${post.slug}/`,
+    },
+    ...(post.image ? { image: post.image } : {}),
+  }
+
   return (
-    <main className="min-h-screen bg-white">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-64 sm:h-80 bg-gradient-to-br from-blue-700 to-blue-900 overflow-hidden">
         {post.image && (
@@ -117,5 +150,6 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </div>
     </main>
+    </>
   )
 }
