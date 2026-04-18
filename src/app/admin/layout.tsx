@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { requireAuth } from '@/lib/auth'
 import { createServerClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import { LayoutDashboard, FileText, LogOut } from 'lucide-react'
+import { LayoutDashboard, FileText, Star, BadgeCheck, LogOut } from 'lucide-react'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireAuth('/login')
@@ -43,6 +43,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           >
             <FileText className="w-4 h-4" />
             Blog Posts
+          </Link>
+          <Link
+            href="/admin/reviews"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-100 transition-colors"
+          >
+            <Star className="w-4 h-4" />
+            Reviews
+          </Link>
+          <Link
+            href="/admin/badges"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-100 transition-colors"
+          >
+            <BadgeCheck className="w-4 h-4" />
+            Badges
           </Link>
         </nav>
 

@@ -13,6 +13,10 @@ import { JsonLd } from '@/components/JsonLd'
 import { TABLES } from '@/types'
 import type { Contractor, ContractorReview, Category } from '@/types'
 import { QuoteButton } from './QuoteButton'
+import { getApprovedReviews } from '@/lib/reviews'
+import { getContractorBadges } from '@/lib/badges'
+import { ReviewList } from '@/components/reviews/ReviewList'
+import { BadgeList } from '@/components/badges/BadgeList'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.thebestflorida.com'
 
@@ -86,8 +90,8 @@ export default async function ProProfilePage({ params }: Props) {
 
   if (!contractor) notFound()
 
-  // Fetch categories + reviews in parallel
-  const [{ data: catLinks }, { data: reviews }] = await Promise.all([
+  // Fetch categories, legacy reviews, new verified reviews, and badges in parallel
+  const [{ data: catLinks }, { data: reviews }, verifiedReviews, contractorBadges] = await Promise.all([
     supabase
       .from(TABLES.contractor_categories)
       .select('category:tbf_categories(name, slug)')
@@ -99,6 +103,8 @@ export default async function ProProfilePage({ params }: Props) {
       .order('created_at', { ascending: false })
       .limit(10)
       .returns<ContractorReview[]>(),
+    getApprovedReviews(String(contractor.id)),
+    getContractorBadges(String(contractor.id)),
   ])
 
   const categories = (catLinks ?? [])
@@ -287,49 +293,65 @@ export default async function ProProfilePage({ params }: Props) {
               </div>
             )}
 
-            {/* Trust badges */}
-            {trustBadges.length > 0 && (
+            {/* Trust badges (legacy flags) + new dynamic badges */}
+            {(trustBadges.length > 0 || contractorBadges.length > 0) && (
               <div className="bg-white rounded-xl border p-6">
                 <h2 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <Shield className="w-4 h-4 text-green-600" />
                   Verified Credentials
                 </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {trustBadges.map((b) => (
-                    <div key={b.label} className="flex flex-col items-center text-center p-3 bg-green-50 rounded-xl border border-green-100">
-                      <span className="text-xl mb-1">{b.icon}</span>
-                      <p className="text-xs font-bold text-green-800">{b.label}</p>
-                      <p className="text-xs text-green-600 mt-0.5 leading-tight">{b.desc}</p>
-                    </div>
-                  ))}
-                </div>
+                {/* Dynamic badges */}
+                {contractorBadges.length > 0 && (
+                  <div className="mb-4">
+                    <BadgeList badges={contractorBadges} size="md" />
+                  </div>
+                )}
+                {/* Legacy trust flags */}
+                {trustBadges.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {trustBadges.map((b) => (
+                      <div key={b.label} className="flex flex-col items-center text-center p-3 bg-green-50 rounded-xl border border-green-100">
+                        <span className="text-xl mb-1">{b.icon}</span>
+                        <p className="text-xs font-bold text-green-800">{b.label}</p>
+                        <p className="text-xs text-green-600 mt-0.5 leading-tight">{b.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Reviews */}
+            {/* Verified Reviews (new system) */}
             <div className="bg-white rounded-xl border p-6">
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-base font-bold text-gray-900">
-                  Customer Reviews
-                  {contractor.reviews_count > 0 && (
-                    <span className="text-gray-400 font-normal ml-2">({contractor.reviews_count})</span>
-                  )}
-                </h2>
-                {contractor.rating > 0 && (
-                  <StarRating rating={contractor.rating} size="lg" />
-                )}
-              </div>
+              <h2 className="text-base font-bold text-gray-900 mb-5">Customer Reviews</h2>
+              <ReviewList
+                reviews={verifiedReviews}
+                contractorSlug={contractor.slug}
+                businessName={contractor.business_name}
+              />
+            </div>
 
-              {reviewList.length === 0 ? (
-                <p className="text-gray-400 text-sm py-4 text-center">No reviews yet.</p>
-              ) : (
+            {/* Legacy reviews (imported data) */}
+            {reviewList.length > 0 && verifiedReviews.length === 0 && (
+              <div className="bg-white rounded-xl border p-6">
+                <div className="flex items-center justify-between mb-5">
+                  <h2 className="text-base font-bold text-gray-900">
+                    Reviews
+                    {contractor.reviews_count > 0 && (
+                      <span className="text-gray-400 font-normal ml-2">({contractor.reviews_count})</span>
+                    )}
+                  </h2>
+                  {contractor.rating > 0 && (
+                    <StarRating rating={contractor.rating} size="lg" />
+                  )}
+                </div>
                 <div className="space-y-5">
                   {reviewList.map((review) => (
                     <ReviewItem key={review.id} review={review} />
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
           </div>
 
