@@ -46,25 +46,31 @@ export function Hero() {
   }
 
   return (
-    <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-20 lg:py-32 overflow-hidden">
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}
-      />
+    <section className="relative bg-gradient-to-b from-blue-50 to-white py-20 lg:py-28 overflow-hidden">
+      {/* Subtle background decoration */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/60 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-green-100/40 rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-          Find the <span className="text-yellow-400">Best</span> Service Pros
-          <br />in Florida
+        {/* Trust pill */}
+        <div className="inline-flex items-center gap-2 bg-white border border-gray-200 shadow-sm text-gray-600 text-xs font-semibold px-4 py-2 rounded-full mb-8">
+          <span className="w-2 h-2 bg-green-500 rounded-full" />
+          Trusted by Florida homeowners since 2024
+        </div>
+
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-5 leading-tight">
+          Find Trusted Pros
+          <br />
+          <span className="text-blue-600">for Your Home</span>
         </h1>
-        <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-          We handpick top-rated professionals so you don&apos;t have to.
-          Get free quotes from verified local experts.
+        <p className="text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+          Connect with top-rated local professionals recommended
+          by your Florida neighbors. Get free quotes in minutes.
         </p>
 
         <form
           onSubmit={handleSearch}
-          className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl p-2 flex flex-col md:flex-row gap-2"
+          className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-2 flex flex-col md:flex-row gap-2"
         >
           {/* Service select */}
           <div className="flex-1 relative">
@@ -74,7 +80,7 @@ export function Hero() {
               value={service}
               onChange={(e) => setService(e.target.value)}
               disabled={loadingOptions}
-              className="w-full h-12 pl-10 pr-8 rounded-lg border-0 bg-transparent text-base text-gray-700 focus:outline-none focus:ring-0 appearance-none cursor-pointer disabled:text-gray-400"
+              className="w-full h-12 pl-10 pr-8 rounded-xl border-0 bg-transparent text-base text-gray-700 focus:outline-none focus:ring-0 appearance-none cursor-pointer disabled:text-gray-400"
             >
               <option value="">What service do you need?</option>
               {categories.map((cat) => (
@@ -95,7 +101,7 @@ export function Hero() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               disabled={loadingOptions}
-              className="w-full h-12 pl-10 pr-8 rounded-lg border-0 bg-transparent text-base text-gray-700 focus:outline-none focus:ring-0 appearance-none cursor-pointer disabled:text-gray-400"
+              className="w-full h-12 pl-10 pr-8 rounded-xl border-0 bg-transparent text-base text-gray-700 focus:outline-none focus:ring-0 appearance-none cursor-pointer disabled:text-gray-400"
             >
               <option value="">Any city in Florida</option>
               {cities.map((c) => (
@@ -109,7 +115,7 @@ export function Hero() {
           <Button
             type="submit"
             size="lg"
-            className="h-12 px-8 bg-orange-500 hover:bg-orange-600 text-base flex-shrink-0"
+            className="h-12 px-8 bg-blue-600 hover:bg-blue-700 text-base flex-shrink-0 rounded-xl"
           >
             Search
           </Button>
@@ -117,7 +123,7 @@ export function Hero() {
 
         {/* Popular quick-picks */}
         <div className="mt-6 flex flex-wrap justify-center gap-2 items-center">
-          <span className="text-blue-200 text-sm">Popular:</span>
+          <span className="text-gray-400 text-sm">Popular:</span>
           {POPULAR.map((s) => (
             <button
               key={s.slug}
@@ -126,11 +132,20 @@ export function Hero() {
                 setService(s.slug)
                 router.push(`/search?service=${s.slug}`)
               }}
-              className="text-sm text-white bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition"
+              className="text-sm text-gray-600 bg-gray-100 hover:bg-blue-50 hover:text-blue-700 border border-gray-200 hover:border-blue-200 px-3 py-1 rounded-full transition-colors"
             >
               {s.label}
             </button>
           ))}
+        </div>
+
+        {/* Social proof */}
+        <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+          <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">500+</span> verified professionals</span>
+          <span className="text-gray-300">·</span>
+          <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">35+</span> service categories</span>
+          <span className="text-gray-300">·</span>
+          <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">100%</span> free for homeowners</span>
         </div>
       </div>
     </section>
