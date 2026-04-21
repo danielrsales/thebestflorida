@@ -6,10 +6,6 @@ interface ReviewCardProps {
   showResponse?: boolean
 }
 
-const COST_RANGES = [
-  'Under $500', '$500–$1,000', '$1,000–$5,000',
-  '$5,000–$10,000', '$10,000–$25,000', 'Over $25,000',
-]
 
 function Stars({ rating }: { rating: number }) {
   return (

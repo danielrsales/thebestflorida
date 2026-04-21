@@ -117,7 +117,7 @@ export function ReviewForm({ contractorId, contractorSlug, businessName }: Revie
         <p className="text-gray-500 max-w-sm mx-auto">
           We sent a verification link to your email. Please click it to publish your review.
         </p>
-        <p className="text-sm text-gray-400 mt-4">Check your spam folder if you don't see it within a few minutes.</p>
+        <p className="text-sm text-gray-400 mt-4">Check your spam folder if you don&apos;t see it within a few minutes.</p>
       </div>
     )
   }

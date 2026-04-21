@@ -10,12 +10,13 @@ interface Pro {
   rating: number
   reviews_count: number
   tagline: string | null
-  city: { name: string } | null
-  categories: { name: string }[]
+  city: unknown
+  categories: unknown
 }
 
 interface FeaturedProsProps {
-  pros: Pro[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pros: any[]
 }
 
 function StarRow({ rating }: { rating: number }) {

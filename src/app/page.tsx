@@ -8,6 +8,16 @@ import { FinalCTA } from '@/components/home/FinalCTA'
 
 export const revalidate = 3600
 
+interface BlogPost {
+  slug: string
+  title: string
+  excerpt: string | null
+  cover_image: string | null
+  category: string | null
+  published_at: string | null
+  created_at: string
+}
+
 async function getFeaturedPros() {
   const supabase = createServerClient()
   const { data } = await supabase
@@ -16,10 +26,10 @@ async function getFeaturedPros() {
     .eq('status', 'active')
     .order('rating', { ascending: false })
     .limit(4)
-  return (data ?? []) as any[]
+  return data ?? []
 }
 
-async function getRecentPosts() {
+async function getRecentPosts(): Promise<BlogPost[]> {
   const supabase = createServerClient()
   const { data } = await supabase
     .from('tbf_posts')
@@ -27,7 +37,7 @@ async function getRecentPosts() {
     .eq('published', true)
     .order('published_at', { ascending: false })
     .limit(3)
-  return (data ?? []) as any[]
+  return (data ?? []) as BlogPost[]
 }
 
 export default async function HomePage() {

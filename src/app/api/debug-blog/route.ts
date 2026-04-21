@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { adminCreatePost } from '@/lib/posts'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const post = await adminCreatePost({
