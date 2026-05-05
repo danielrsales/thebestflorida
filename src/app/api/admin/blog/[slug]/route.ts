@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { adminUpdatePost, adminDeletePost } from '@/lib/posts'
 
@@ -30,6 +31,11 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
   const body = await req.json()
   try {
     const post = await adminUpdatePost(params.slug, body)
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${params.slug}`)
+    if (body.slug && body.slug !== params.slug) {
+      revalidatePath(`/blog/${body.slug}`)
+    }
     return NextResponse.json(post)
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Error' }, { status: 500 })
@@ -43,6 +49,8 @@ export async function DELETE(_req: NextRequest, { params }: RouteContext) {
 
   try {
     await adminDeletePost(params.slug)
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${params.slug}`)
     return NextResponse.json({ success: true })
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Error' }, { status: 500 })

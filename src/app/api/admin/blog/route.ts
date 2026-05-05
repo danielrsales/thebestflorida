@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { adminCreatePost } from '@/lib/posts'
 
@@ -39,6 +40,8 @@ export async function POST(req: NextRequest) {
       published: !!published,
       published_at: published_at ?? null,
     })
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${post.slug}`)
     return NextResponse.json(post, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Error' }, { status: 500 })
