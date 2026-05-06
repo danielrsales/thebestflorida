@@ -104,16 +104,27 @@ export function PostForm({ initial = {}, mode }: PostFormProps) {
       ? '/api/admin/blog'
       : `/api/admin/blog/${initial.slug}`
 
-    const res = await fetch(url, {
-      method: mode === 'create' ? 'POST' : 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
+    let res: Response
+    try {
+      res = await fetch(url, {
+        method: mode === 'create' ? 'POST' : 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+    } catch (err) {
+      setSaving(false)
+      setError(err instanceof Error ? err.message : 'Network error')
+      return
+    }
 
-    const json = await res.json()
     setSaving(false)
 
-    if (!res.ok) { setError(json.error ?? 'Failed to save.'); return }
+    if (!res.ok) {
+      // Server may return non-JSON (e.g. Vercel 5xx HTML) — parse defensively
+      const json = await res.json().catch(() => ({}))
+      setError(json.error ?? `Save failed: HTTP ${res.status}`)
+      return
+    }
 
     router.push('/admin/blog')
     router.refresh()
