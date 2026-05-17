@@ -1,52 +1,104 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Star, Award, Link2, TrendingUp, Building2, Gift } from 'lucide-react'
+import {
+  ArrowRight,
+  CheckCircle,
+  UserPlus,
+  Bell,
+  Handshake,
+  LayoutDashboard,
+  Star,
+  Award,
+  Zap,
+  Ban,
+} from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'For Service Professionals | TheBestFlorida',
   description:
-    'Get featured in our Top 15 lists, earn a backlink to your website, and connect with Florida homeowners — completely free. No contracts, no fees.',
+    'Join TheBestFlorida and get free leads from homeowners in your area. Free CRM included. No contracts, no fees.',
   alternates: { canonical: '/for-pros/' },
   openGraph: {
     title: 'For Service Professionals | TheBestFlorida',
-    description: 'Get featured in our Top 15 lists and grow your Florida service business for free.',
+    description:
+      'Join TheBestFlorida and get free leads from homeowners in your area. Free CRM included.',
     url: '/for-pros/',
   },
 }
 
 const STEPS = [
   {
-    number: '01',
-    title: 'Get Featured',
+    icon: UserPlus,
+    title: 'Create Your Profile',
     description:
-      "We research and handpick the best service companies in each Florida city. If you qualify, we'll reach out to invite you.",
+      'Sign up and tell us about your business — services you offer, cities you cover, and your experience. Takes less than 5 minutes.',
   },
   {
-    number: '02',
-    title: 'Add Your Badge',
+    icon: Bell,
+    title: 'We Send You Leads',
     description:
-      'Place our Top 15 verified badge on your website. It builds trust with your customers and links back to your feature article.',
+      "When homeowners in your area request quotes for your services, we send the lead directly to you. You'll get notified instantly.",
   },
   {
-    number: '03',
-    title: 'Get More Customers',
+    icon: Handshake,
+    title: 'Close the Deal',
     description:
-      'Your business appears in our Top 15 article with a direct link to your website. Homeowners find you through Google searches.',
+      'Contact the homeowner, provide your quote, and win the job. Manage everything through your free DunaHub CRM dashboard.',
   },
 ]
 
 const BENEFITS = [
-  { icon: Star,      label: 'Free exposure in Top 15 articles' },
-  { icon: Link2,     label: 'SEO backlink to your website' },
-  { icon: Award,     label: 'Verified Top 15 badge for your site' },
-  { icon: TrendingUp, label: 'Increased trust & credibility' },
-  { icon: Gift,      label: 'Free CRM via DunaHub partner' },
-  { icon: Building2, label: 'No contracts, no fees — ever' },
+  {
+    icon: Bell,
+    title: 'Free leads from local homeowners',
+    description:
+      'Homeowners searching for services in your area find you on TheBestFlorida and request quotes directly.',
+  },
+  {
+    icon: LayoutDashboard,
+    title: 'Free CRM to manage your business',
+    description:
+      'Every contractor gets free access to DunaHub — a complete CRM with pipeline, inbox, scheduling, and invoicing.',
+  },
+  {
+    icon: Star,
+    title: 'Featured in Top 15 articles',
+    description:
+      "Top-performing contractors get featured in our 'Top 15 Best [Service] in [City]' articles, boosting your online visibility.",
+  },
+  {
+    icon: Award,
+    title: 'Verified badge for your website',
+    description:
+      "Stand out from competitors with our 'Top 15 Verified' badge on your website.",
+  },
+  {
+    icon: Ban,
+    title: 'No contracts, no fees',
+    description:
+      'Listing your business and receiving direct leads is 100% free. No hidden costs, no commitments.',
+  },
+  {
+    icon: Zap,
+    title: 'SMS & email notifications',
+    description:
+      'Get notified instantly when a new lead comes in. Never miss an opportunity.',
+  },
 ]
 
-const CATEGORIES = [
-  'Roofing', 'Gutters', 'Pool Service', 'Landscaping', 'HVAC',
-  'Plumbing', 'Electrical', 'Painting', 'Pressure Washing', 'Fencing',
+const REQUIREMENTS = [
+  'Active business with good reputation',
+  'Serving customers in Florida',
+  'Licensed and insured (where applicable)',
+  'Positive customer reviews',
+]
+
+const CRM_FEATURES = [
+  'Visual sales pipeline',
+  'Unified inbox (WhatsApp, SMS, Email)',
+  'Job scheduling & calendar',
+  'Quotes & invoicing',
+  'Mobile-friendly',
 ]
 
 export default function ForProsPage() {
@@ -57,7 +109,10 @@ export default function ForProsPage() {
       <section className="relative bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            backgroundSize: '32px 32px',
+          }}
         />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-300/10 rounded-full blur-3xl pointer-events-none" />
@@ -68,12 +123,12 @@ export default function ForProsPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 leading-tight">
-            Grow Your Business with TheBestFlorida
+            Get More Customers in Florida
           </h1>
 
           <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto mb-10">
-            Get featured in our Top 15 lists, earn backlinks to your website, and connect with
-            homeowners looking for your services — completely free.
+            TheBestFlorida connects you with homeowners actively looking for your services.
+            Get leads delivered straight to your inbox — for free.
           </p>
 
           <Link
@@ -83,6 +138,10 @@ export default function ForProsPage() {
             List Your Business
             <ArrowRight className="w-5 h-5" />
           </Link>
+
+          <p className="text-xs text-blue-200/60 mt-5">
+            No credit card required · 100% free to join
+          </p>
         </div>
       </section>
 
@@ -93,13 +152,21 @@ export default function ForProsPage() {
             How It Works
           </h2>
           <p className="text-gray-500 text-center mb-14 max-w-xl mx-auto">
-            Three simple steps to start getting free exposure for your business.
+            Start receiving leads in 3 simple steps.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {STEPS.map((step) => (
-              <div key={step.number} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
-                <div className="text-4xl font-extrabold text-blue-100 mb-4">{step.number}</div>
+            {STEPS.map((step, i) => (
+              <div
+                key={step.title}
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center"
+              >
+                <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <step.icon className="w-7 h-7 text-blue-600" />
+                </div>
+                <div className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-2">
+                  Step {i + 1}
+                </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{step.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{step.description}</p>
               </div>
@@ -119,42 +186,89 @@ export default function ForProsPage() {
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BENEFITS.map(({ icon: Icon, label }) => (
+            {BENEFITS.map(({ icon: Icon, title, description }) => (
               <div
-                key={label}
-                className="flex items-start gap-4 p-6 rounded-xl border border-gray-100 bg-gray-50"
+                key={title}
+                className="p-6 rounded-xl border border-gray-100 bg-gray-50 flex flex-col gap-3"
               >
                 <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-blue-600" />
                 </div>
-                <p className="text-sm font-medium text-gray-800 leading-snug pt-1.5">{label}</p>
+                <h3 className="text-sm font-semibold text-gray-900 leading-snug">{title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Who We Feature ───────────────────────────────────────────────── */}
+      {/* ── Who Can Join ─────────────────────────────────────────────────── */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-5">
-            Who We Feature
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Who Can Join
           </h2>
-          <p className="text-gray-600 leading-relaxed mb-10">
-            We feature established service businesses in Florida with a strong reputation,
-            active online presence, and great customer reviews.
+          <p className="text-gray-600 mb-8">
+            We work with established service businesses in Florida.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            {CATEGORIES.map((cat) => (
-              <span
-                key={cat}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-gray-200 text-sm font-medium text-gray-700 shadow-sm"
-              >
-                <CheckCircle className="w-3.5 h-3.5 text-green-500" />
-                {cat}
-              </span>
+          <ul className="inline-flex flex-col items-start gap-3 mb-10 text-left">
+            {REQUIREMENTS.map((req) => (
+              <li key={req} className="flex items-center gap-3 text-sm text-gray-700">
+                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                {req}
+              </li>
             ))}
+          </ul>
+
+          <p className="text-gray-500 text-sm">
+            Currently covering: Roofing, Gutters, Pool Service, Landscaping, HVAC, Plumbing,
+            Electrical, Painting, Pressure Washing, Fencing, and 25+ more categories.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Powered by DunaHub ───────────────────────────────────────────── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-8 sm:p-12">
+            <div className="max-w-2xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-5">
+                Powered by DunaHub
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+                Your leads, managed professionally
+              </h2>
+
+              <p className="text-gray-600 leading-relaxed mb-8">
+                TheBestFlorida partners with DunaHub to give every contractor a free professional
+                CRM. Track leads, schedule jobs, send quotes, and communicate with customers —
+                all in one place.
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-3 mb-8">
+                {CRM_FEATURES.map((feat) => (
+                  <span
+                    key={feat}
+                    className="flex items-center gap-1.5 text-sm text-gray-700 bg-white border border-gray-200 px-3 py-1.5 rounded-full shadow-sm"
+                  >
+                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                    {feat}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href="https://dunahub.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors"
+              >
+                Learn more about DunaHub
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -163,13 +277,16 @@ export default function ForProsPage() {
       <section className="relative py-24 bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            backgroundSize: '32px 32px',
+          }}
         />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Ready to get featured?
+            Ready to get more customers?
           </h2>
           <p className="text-xl text-blue-100 mb-10 max-w-xl mx-auto">
             Join hundreds of Florida service professionals already growing with TheBestFlorida.
@@ -184,7 +301,7 @@ export default function ForProsPage() {
           </Link>
 
           <p className="text-xs text-blue-200/60 mt-6">
-            No credit card required · 100% free
+            No credit card required · 100% free · Takes 5 minutes
           </p>
         </div>
       </section>
