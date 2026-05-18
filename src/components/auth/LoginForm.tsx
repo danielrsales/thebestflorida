@@ -9,6 +9,7 @@ function LoginFormInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const next = searchParams.get('next') ?? '/dashboard'
+  const registered = searchParams.get('registered') === 'true'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -43,6 +44,12 @@ function LoginFormInner() {
             Create one
           </Link>
         </p>
+
+        {registered && (
+          <div className="mb-5 text-sm text-green-800 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+            Account created successfully! Sign in to access your dashboard.
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

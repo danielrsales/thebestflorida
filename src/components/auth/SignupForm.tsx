@@ -6,11 +6,8 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Combobox, type ComboboxOption } from '@/components/ui/Combobox'
 
-type Step = 'form' | 'success'
-
 export function SignupForm() {
   const router = useRouter()
-  const [step, setStep] = useState<Step>('form')
   const [categoryOptions, setCategoryOptions] = useState<ComboboxOption[]>([])
 
   const [name, setName] = useState('')
@@ -64,31 +61,18 @@ export function SignupForm() {
       return
     }
 
-    setStep('success')
-  }
+    // Auto-login with the credentials just created (email_confirm: true, no verification needed)
+    const supabase = createClient()
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
 
-  if (step === 'success') {
-    return (
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl border shadow-sm p-8 text-center">
-          <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Account created!</h2>
-          <p className="text-sm text-gray-500 mb-6">
-            Welcome to TheBestFlorida! Your contractor profile is pending review. Check your email for next steps.
-          </p>
-          <button
-            onClick={() => router.push('/login')}
-            className="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Go to Login
-          </button>
-        </div>
-      </div>
-    )
+    if (signInError) {
+      // Fallback: send to login with a success banner
+      router.push('/login?registered=true')
+      return
+    }
+
+    router.push('/dashboard')
+    router.refresh()
   }
 
   return (
