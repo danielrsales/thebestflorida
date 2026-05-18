@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle } from 'lucide-react'
 
 const PERKS = [
   'Free profile listing',
-  'Leads from local homeowners',
+  'Leads from local customers',
   'Free CRM via DunaHub',
 ]
 
@@ -30,7 +30,7 @@ export function FinalCTA() {
         </h2>
 
         <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-          Join hundreds of service professionals on TheBestFlorida and connect with homeowners looking for your expertise.
+          Join hundreds of service professionals on TheBestFlorida and connect with customers looking for your expertise.
         </p>
 
         {/* Perks */}

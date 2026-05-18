@@ -55,17 +55,17 @@ export function Hero() {
         {/* Trust pill */}
         <div className="inline-flex items-center gap-2 bg-white border border-gray-200 shadow-sm text-gray-600 text-xs font-semibold px-4 py-2 rounded-full mb-8">
           <span className="w-2 h-2 bg-green-500 rounded-full" />
-          Trusted by Florida homeowners since 2024
+          Trusted by Florida customers since 2024
         </div>
 
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-5 leading-tight">
           Find Trusted Pros
           <br />
-          <span className="text-blue-600">for Your Home</span>
+          <span className="text-blue-600">in Florida</span>
         </h1>
         <p className="text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
           Connect with top-rated local professionals recommended
-          by your Florida neighbors. Get free quotes in minutes.
+          by Florida customers. Get free quotes in minutes from verified local pros.
         </p>
 
         <form
@@ -141,11 +141,11 @@ export function Hero() {
 
         {/* Social proof */}
         <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-gray-400">
-          <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">500+</span> verified professionals</span>
+          <span className="flex items-center gap-1.5">Growing network of <span className="font-semibold text-gray-700">verified pros</span></span>
           <span className="text-gray-300">·</span>
           <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">35+</span> service categories</span>
           <span className="text-gray-300">·</span>
-          <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">100%</span> free for homeowners</span>
+          <span className="flex items-center gap-1.5"><span className="font-semibold text-gray-700">100%</span> free to use</span>
         </div>
       </div>
     </section>

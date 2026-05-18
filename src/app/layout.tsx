@@ -15,7 +15,7 @@ const DEFAULT_DESCRIPTION =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Find Top-Rated Service Pros in Florida`,
+    default: `${SITE_NAME} — Find Trusted Service Pros in Florida`,
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Find Top-Rated Service Pros in Florida`,
+    title: `${SITE_NAME} — Find Trusted Service Pros in Florida`,
     description: DEFAULT_DESCRIPTION,
     images: [
       {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@thebestflorida',
-    title: `${SITE_NAME} — Find Top-Rated Service Pros in Florida`,
+    title: `${SITE_NAME} — Find Trusted Service Pros in Florida`,
     description: DEFAULT_DESCRIPTION,
     images: ['/og-default.png'],
   },
