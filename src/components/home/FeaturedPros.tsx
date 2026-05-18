@@ -19,8 +19,7 @@ const STEPS = [
   },
 ]
 
-// Props kept for backwards-compatibility with page.tsx
-export function FeaturedPros(_props: { pros: unknown[] }) {
+export function FeaturedPros(_: { pros: unknown[] }) {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
