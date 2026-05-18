@@ -8,7 +8,6 @@ import {
   Handshake,
   LayoutDashboard,
   Star,
-  Award,
   Zap,
   Ban,
   Users,
