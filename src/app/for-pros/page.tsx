@@ -89,9 +89,9 @@ const STEPS = [
 const BENEFITS = [
   {
     icon: Bell,
-    title: 'Access to local leads',
+    title: 'Access to qualified leads',
     description:
-      'Homeowners in Florida search for services on our platform. Purchase leads that match your category and city.',
+      'Homeowners in Florida search for services on our platform. Purchase leads that match your category and city through DunaHub.',
   },
   {
     icon: LayoutDashboard,
@@ -523,7 +523,7 @@ export default function ForProsPage() {
             Who Can Join TheBestFlorida
           </h2>
           <p className="text-gray-600 mb-10">
-            Any service business operating in Florida can create a free listing.
+            Any active service business in Florida.
           </p>
 
           {/* Open listing requirements */}
