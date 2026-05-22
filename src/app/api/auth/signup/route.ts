@@ -159,6 +159,25 @@ async function signupContractor({
       )
     }
   }
+
+  // ── DunaHub integration (non-blocking) ───────────────────────────────────
+  try {
+    const { data: org, error: orgError } = await supabaseAdmin
+      .from('organizations')
+      .insert({ name, region: 'US' })
+      .select('id')
+      .single()
+
+    if (orgError) throw new Error(orgError.message)
+
+    const { error: membershipError } = await supabaseAdmin
+      .from('memberships')
+      .insert({ user_id: userId, organization_id: org.id, role: 2 })
+
+    if (membershipError) throw new Error(membershipError.message)
+  } catch (err) {
+    console.error('[signup] Failed to create DunaHub org/membership:', err instanceof Error ? err.message : err)
+  }
 }
 
 function buildWelcomeEmail({ name, type, city }: { name: string; type: string; city?: string }) {
@@ -186,6 +205,13 @@ function buildWelcomeEmail({ name, type, city }: { name: string; type: string; c
         Our team will verify your profile within 1–2 business days.
       </p>
       ${city ? `<p style="color:#555;line-height:1.6;margin-top:12px">Once approved, you'll appear in search results for customers in <strong>${city}, Florida</strong>.</p>` : ''}
+      <p style="color:#555;line-height:1.6;margin-top:12px">
+        You also have free access to <strong>DunaHub</strong>, our partner CRM platform.
+        Manage your leads, schedule jobs, and send quotes — all in one place.
+      </p>
+      <a href="https://dunahub.com/login" style="display:inline-block;margin-top:16px;background:#f59e0b;color:#111;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none">
+        Access Your Free CRM
+      </a>
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
       <p style="font-size:12px;color:#9ca3af">TheBestFlorida — Find Top-Rated Service Pros in Florida</p>
     </div>
