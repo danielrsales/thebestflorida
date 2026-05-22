@@ -1,4 +1,4 @@
-import { Eye, Star, MessageSquare, TrendingUp } from 'lucide-react'
+import { Eye, Star, MessageSquare, TrendingUp, Search, ArrowRight, CheckCircle, Info } from 'lucide-react'
 import { createServerClient } from '@/lib/supabase/server'
 import { requireAuth } from '@/lib/auth'
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
@@ -84,6 +84,47 @@ export default async function DashboardPage() {
             color="purple"
           />
         </div>
+
+        {/* How You'll Receive Leads — shown only when contractor has 0 leads */}
+        {totalLeads === 0 && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 space-y-4">
+            <div className="flex items-center gap-2">
+              <Info className="w-4 h-4 text-blue-600 shrink-0" />
+              <h2 className="font-semibold text-blue-900">How You&apos;ll Receive Leads</h2>
+            </div>
+            <p className="text-sm text-blue-800 leading-relaxed">
+              When homeowners on TheBestFlorida request quotes for your services, the leads go directly to your DunaHub CRM.
+              There you can view customer details, respond to inquiries, schedule jobs, and send quotes — all for free.
+            </p>
+
+            {/* 3-step flow */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-2">
+              <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-blue-100 text-sm text-blue-800 flex-1">
+                <Search className="w-4 h-4 text-blue-500 shrink-0" />
+                <span>Homeowner requests a quote on TheBestFlorida</span>
+              </div>
+              <ArrowRight className="w-4 h-4 text-blue-400 shrink-0 hidden sm:block" />
+              <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-blue-100 text-sm text-blue-800 flex-1">
+                <MessageSquare className="w-4 h-4 text-blue-500 shrink-0" />
+                <span>Lead is delivered to your DunaHub CRM</span>
+              </div>
+              <ArrowRight className="w-4 h-4 text-blue-400 shrink-0 hidden sm:block" />
+              <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-blue-100 text-sm text-blue-800 flex-1">
+                <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+                <span>You respond and close the deal</span>
+              </div>
+            </div>
+
+            <a
+              href="https://dunahub.com/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-sm bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Open DunaHub →
+            </a>
+          </div>
+        )}
 
         {/* Leads + profile link */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
