@@ -131,6 +131,8 @@ async function signupContractor({
       phone: phone || null,
       slug,
       city_id: cityRow?.id ?? null,
+      city: city.trim(),
+      state: 'Florida',
       status: 'pending',
       is_insured: false,
       is_bonded: false,

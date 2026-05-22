@@ -79,7 +79,10 @@ export default function ProfilePage() {
         .from('tbf_categories')
         .select('id, name, slug')
         .order('name'),
-    ]).then(([{ data: contractor }, { data: categories }]) => {
+    ]).then(([{ data: contractor, error: contractorError }, { data: categories }]) => {
+      if (contractorError) {
+        console.error('[profile] tbf_contractors query error:', contractorError)
+      }
       if (contractor) {
         setProfile(contractor as ContractorProfile)
         setContractorId(contractor.id)
