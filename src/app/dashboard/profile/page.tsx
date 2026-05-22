@@ -82,6 +82,9 @@ export default function ProfilePage() {
     ]).then(([{ data: contractor, error: contractorError }, { data: categories }]) => {
       if (contractorError) {
         console.error('[profile] tbf_contractors query error:', contractorError)
+        setError(`Query error: ${contractorError.message}`)
+        setLoading(false)
+        return
       }
       if (contractor) {
         setProfile(contractor as ContractorProfile)
@@ -182,9 +185,14 @@ export default function ProfilePage() {
       <>
         <DashboardHeader title="Profile" />
         <div className="flex-1 flex items-center justify-center p-6 text-center">
-          <div>
+          <div className="max-w-md">
             <p className="text-gray-700 font-medium mb-1">Complete your profile to appear on TheBestFlorida</p>
             <p className="text-sm text-gray-500">No contractor profile was found for your account.</p>
+            {error && (
+              <p className="mt-3 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-left font-mono break-all">
+                {error}
+              </p>
+            )}
           </div>
         </div>
       </>
