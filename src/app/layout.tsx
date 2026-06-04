@@ -50,6 +50,12 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
+  verification: {
+    google: [
+      '4TQ1UpP4aZ3Cb6oVtNjJ5XRCceD6c0jrJRKUKyUshh8',
+      'mIUoKwroOkQ8U-FCz-p5IomaQgCxdEiBGMRYKzsLY7E',
+    ],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
